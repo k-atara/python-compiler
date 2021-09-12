@@ -1,0 +1,7 @@
+listaComent
+#hola #dd
+p=3 #pepe
+"hola mundo"
+
+for i in range(len(lineas)):
+    return True
