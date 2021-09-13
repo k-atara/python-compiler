@@ -1,7 +1,5 @@
-listaComent
-#hola #dd
-p=3 #pepe
-"hola mundo"
 
-for i in range(len(lineas)):
-    return True
+"Javier dijo: \"Hola mundo!\""
+"Javier dijo: 'Hola mundo!'"
+'Javier dijo: "Hola mundo!"'
+"Hello, it's me"

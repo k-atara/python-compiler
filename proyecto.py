@@ -33,7 +33,7 @@ Identificadores = '[a-zA-Z_][a-zA-Z0-9_]*'
 #las letras mayúsculas y minúsculas A hasta Z, el guión bajo _ y los dígitos 0 hasta 9, salvo el primer carácter. Case sensitive
 
 #Literales
-LiteralString = []               #Literales cerrados en comillas simples o dobles (hasta triples...)
+LiteralString = '\".*\"|\'.*\''             #Literales cerrados en comillas simples o dobles (hasta triples...)
 LiteralNumerical = []            #Int, Float, "Complex" (imaginarios (j)) (sin simbolos)
 LiteralBoolean = [PalabrasClave['TRUE'],PalabrasClave['FALSE']] #PalabrasClave [True,False]
 LiteralSpecial = [PalabrasClave['NONE']] #PalabrasClave [None]
@@ -51,7 +51,6 @@ Delimitadores = {'LPAR':'(','RPAR':')','LSQB':'[','RSQB':']','LBRACE':'{','RBRAC
                 'RIGHTSHIFTEQUAL':'>>=','LEFTSHIFTEQUAL':'<<=','DOUBLESTAREQUAL':'**='}
 
 DelimitadoresEspeciales = {'CSIMPLE':'\'','CDOUBLE':'\"','HASHTAG':'#','RDOUBLESLASH':'\\','EMPTY':''} #EMPTY SE GENERA CUANDO HAY UN SALTO DE LINEA DE FORMA AUTOMATICA
-Comentario = ''
 #El simbolo de hashtag se usa de comentario
 #El simbolo de comilla doble o simple se usa para hacer strings
 
@@ -76,11 +75,15 @@ def palabrasClaveName(t):
             return clave
     return False
 
+#---------------------------------------------------------------------Recursion
+
+
 def tokenizador(t):
     posComment=t.find("#")
     posEnter=t.find("\n")
     posEspacio=t.find(" ")
-    print("t="+t)
+    txtString=re.fullmatch(LiteralString,t)
+    #print("t="+t)
 #Comentarios
     if(posComment!=-1):
         if(posComment==0):
@@ -98,6 +101,12 @@ def tokenizador(t):
         listaTokens.append("Enter -> \\n")
         tokenizador(l)
 #Strings 
+    elif(bool(txtString)):
+        #------------------------------------------------HACER APPENDS 
+        #listaTokens.append()
+        print(t[0])
+        print(t[1:len(t)-1])
+        print(t[len(t)-1])
 
 #Espacios 
     elif(posEspacio!=-1):
@@ -122,6 +131,7 @@ for k in range(len(listaTokens)):
     print(listaTokens[k])
 
 #Análisis de cada token
+
 
 
 """
@@ -163,7 +173,7 @@ print(palabrasFinales)
 #PASO 3: EMPIEZA EL ANALISIS
 
 def tokenId(t):
-    verId=re.fullmatch(Identificadores,t)
+    verId=re.fullmatch(Identificadores,t)   
     #print(verId)
     if verId:
         return True
