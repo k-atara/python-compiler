@@ -9,10 +9,24 @@ PalabrasClave = {'FALSE':'False','NONE':'None','TRUE':'True','AND':'and','AS':'a
 #     valor = PalabrasClave[clave] 
 #     print(clave+" "+valor)
 
+l = re.compile(r'\".*\"|\'.*\'').split("print('Número de palabras: ', num_palabras)")
+#print(l)
+
+txtString=re.split(r'\".*\"|\'.*\'',"print('Número de palabras: ', num_palabras)")
+# print(txtString)
 
 
-txtString=re.fullmatch('\".*\"|\'.*\'',r'"pp"')
-print(bool(txtString))
+x=re.compile('\".*\"|\'.*\'')
+
+tx="print('Numero de palabras: ', num_palabras)"
+
+p=x.findall(tx)
+#print(p)
+
+
+f=re.findall('\".*\"|\'.*\'' ,"print(s)")
+print(f)
+
 
 
 #Espacio          Simbolo            PalabraClave  

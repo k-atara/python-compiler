@@ -89,8 +89,11 @@ def tokenizador(t):
     posComment=t.find("#")
     posEnter=t.find("\n")
     posEspacio=t.find(" ")
-    txtString=re.fullmatch(LiteralString,t)
-    #print("t="+t)
+    txtString=re.findall(LiteralString,t)
+    print("t="+t)
+    print(txtString)
+    print(len(txtString))
+
 #Comentarios
     if(posComment!=-1):
         if(posComment==0):
@@ -108,10 +111,35 @@ def tokenizador(t):
         listaTokens.append("Enter -> \\n")
         tokenizador(l)
 #Strings 
-    elif(bool(txtString)): 
-        listaTokens.append(delimitadoresEspecialesName(t[0])+" -> "+t[0])
-        listaTokens.append("String -> "+t[1:len(t)-1])
-        listaTokens.append(delimitadoresEspecialesName(t[len(t)-1])+" -> "+t[len(t)-1])
+    elif(len(txtString)>0):
+        #print("ENTRE")
+        x=re.compile(LiteralString)
+        p=x.findall(t) #STRING
+        #print(p)
+        pExtra=re.compile(LiteralString).split(t)
+        #print(pExtra) #RESTO DE LA LINEA
+
+        for i in range(len(p)):
+            listaTokens.append("String Literal -> "+p[i])
+
+        if(len(pExtra)>0):
+            for i in range(len(pExtra)):
+                #lineas.append(pExtra[i])
+                tokenizador(pExtra[i])
+        
+        
+
+        # for j in range(len(listStrings)):
+        #     if(re.fullmatch(LiteralString,listStrings[j])):
+        #         listaTokens.append("String Literal -> "+listStrings[j])
+        #     else:
+        #         tokenizador(listStrings[j])
+
+
+
+        # listaTokens.append(delimitadoresEspecialesName(t[0])+" -> "+t[0])
+        # listaTokens.append("String -> "+t[1:len(t)-1])
+        # listaTokens.append(delimitadoresEspecialesName(t[len(t)-1])+" -> "+t[len(t)-1])
 #Espacios 
     elif(posEspacio!=-1):
         listaP = t.split(" ")
@@ -135,6 +163,31 @@ for k in range(len(listaTokens)):
     print(listaTokens[k])
 
 #Análisis de cada token
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

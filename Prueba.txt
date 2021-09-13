@@ -1,5 +1,1 @@
-
-"Javier dijo: \"Hola mundo!\""
-"Javier dijo: 'Hola mundo!'"
-'Javier dijo: "Hola mundo!"'
-"Hello, it's me"
+print('Numero de palabras: ')
