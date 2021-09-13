@@ -75,6 +75,13 @@ def palabrasClaveName(t):
             return clave
     return False
 
+def delimitadoresEspecialesName(t):
+    for clave in DelimitadoresEspeciales:
+        valor = DelimitadoresEspeciales[clave] 
+        if valor == t :
+            return clave
+    return False
+
 #---------------------------------------------------------------------Recursion
 
 
@@ -101,13 +108,10 @@ def tokenizador(t):
         listaTokens.append("Enter -> \\n")
         tokenizador(l)
 #Strings 
-    elif(bool(txtString)):
-        #------------------------------------------------HACER APPENDS 
-        #listaTokens.append()
-        print(t[0])
-        print(t[1:len(t)-1])
-        print(t[len(t)-1])
-
+    elif(bool(txtString)): 
+        listaTokens.append(delimitadoresEspecialesName(t[0])+" -> "+t[0])
+        listaTokens.append("String -> "+t[1:len(t)-1])
+        listaTokens.append(delimitadoresEspecialesName(t[len(t)-1])+" -> "+t[len(t)-1])
 #Espacios 
     elif(posEspacio!=-1):
         listaP = t.split(" ")
