@@ -191,7 +191,7 @@ def tokenizador(t):
             listaTokens.append(delimitadoresName(t)+" -> "+t)
         elif delimitadoresEspeciales(t):
             listaTokens.append(delimitadoresEspecialesName(t)+" -> "+t)
-#ID's
+#ID'S
     elif(t!=''):
         listaTokens.append("ID -> "+t)
 

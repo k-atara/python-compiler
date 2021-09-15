@@ -1,1 +1,2 @@
-print('Numero de palabras: ')
+'Numero de palabras: '
+a = a + b
