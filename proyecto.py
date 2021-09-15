@@ -117,6 +117,20 @@ def delimitadoresEspecialesName(t):
             return clave
     return False
 
+def delimitadoresErrores(t):
+    for clave in DelimitadoresError:
+        valor = DelimitadoresError[clave] 
+        if valor == t :
+            return True
+    return False
+
+def delimitadoresErroresName(t):
+    for clave in DelimitadoresError:
+        valor = DelimitadoresError[clave] 
+        if valor == t :
+            return clave
+    return False
+
 #---------------------------------------------------------------------Recursion
 
 def tokenizador(t):
@@ -163,6 +177,7 @@ def tokenizador(t):
             for i in range(len(pExtra)):
                 #lineas.append(pExtra[i])
                 tokenizador(pExtra[i])
+
 #Espacios 
     elif(posEspacio!=-1):
         listaP = t.split(" ")
@@ -182,13 +197,13 @@ def tokenizador(t):
         #print(pExtra) #RESTO DE LA LINEA
         for i in range(len(p)):
             if operadores(p[i]):
-                listaTokens.append(operadoresName(p[i])+" -> "+t)
+                listaTokens.append(operadoresName(p[i])+" -> "+p[i])
             elif delimitadores(p[i]):
-                listaTokens.append(delimitadoresName(p[i])+" -> "+t)
+                listaTokens.append(delimitadoresName(p[i])+" -> "+p[i])
             elif delimitadoresEspeciales(p[i]):
-                listaTokens.append(delimitadoresEspecialesName(p[i])+" -> "+t)
-            # TODO ERRORES
-            
+                listaTokens.append(delimitadoresEspecialesName(p[i])+" -> "+p[i])
+            elif delimitadoresErrores(p[i]):
+                listaTokens.append(delimitadoresErroresName(p[i])+" -> "+p[i])
         if(len(pExtra)>0):
             for i in range(len(pExtra)):
                 #lineas.append(pExtra[i])
@@ -196,14 +211,6 @@ def tokenizador(t):
 #Encontrar palabras clave
     elif(palabrasClave(t)):
         listaTokens.append(palabrasClaveName(t)+" -> "+t)
-#Encontrar símbolos
-    elif(bool(k)):
-        if operadores(t):
-            listaTokens.append(operadoresName(t)+" -> "+t)
-        elif delimitadores(t):
-            listaTokens.append(delimitadoresName(t)+" -> "+t)
-        elif delimitadoresEspeciales(t):
-            listaTokens.append(delimitadoresEspecialesName(t)+" -> "+t)
 #ID's
     elif(t!=''):
         listaTokens.append("ID -> "+t)
