@@ -33,12 +33,13 @@ Identificadores = '[a-zA-Z_][a-zA-Z0-9_]*'
 #las letras mayúsculas y minúsculas A hasta Z, el guión bajo _ y los dígitos 0 hasta 9, salvo el primer carácter. Case sensitive
 
 #Literales
-LiteralString = '\".*\"|\'.*\''             #Literales cerrados en comillas simples o dobles (hasta triples...)
-LiteralInt = '[1-9]*|0'            #Int, Float, "Complex" (imaginarios (j)) (sin simbolos)
-LiteralFloat= '\d*\.\d*'
+LiteralString = '\"[^[\"]+\"|\'[^[\']]+\''             #Literales cerrados en comillas simples o dobles (hasta triples...)
+LiteralInt = '[1-9]+0?|0'            #Int, Float, "Complex" (imaginarios (j)) (sin simbolos)
+LiteralFloat= '\d+\.\d+|\.\d+|\d+\.'
 LiteralEscape = ['\n']                  #Enter
 
-
+.3
+3.
 #Operadores
 Operadores = {'PLUS':'+','MINUS':'-','STAR':'*','DOUBLESTAR':'**','SLASH':'/','LDOUBLESLASH':'//','PERCENT':'%','AT':'@','LEFTSHIFT':'<<',
               'RIGHTSHIFT':'>>','AMPER':'&','VBAR':'|','CIRCUMFLEX':'^','TILDE':'~','COLONEQUAL':':=','LESS':'<','GREATER':'>','LESSEQUAL':'<=',
@@ -56,7 +57,7 @@ DelimitadoresEspeciales = {'CSIMPLE':'\'','CDOUBLE':'\"','HASHTAG':'#','RDOUBLES
 #---------------------------------------------------------------------------------------------------------------------------------------------
 DelimitadoresError= {'ERRORA':'$','ERRORB':'?','ERRORC':'`'} #Son errores si están afuera de un string
 
-RegexTokens='\+=|\+|\-=|\->|\-|<<=|<=|<<|<|>>=|>=|>>|>|\*=|\*\*=|\*\*|\*|//=|/=|//|/|%=|%|@=|@|&=|&|\|=|\||\^=|\^|~|:=|:|!=|==|=|\(|\)|\[|\]|{|}|,|\.|;|\'|\"|\$|\`|\?'
+RegexTokens='\+=|\+|\-=|\->|\-|<<=|<=|<<|<|>>=|>=|>>|>|\*=|\*\*=|\*\*|\*|//=|/=|//|/|%=|%|@=|@|&=|&|\|=|\||\^=|\^|~|:=|:|!=|==|=|\(|\)|\[|\]|{|}|,|^\w[^[0-9]\.[^[0-9]\w$|;|\'|\"|\$|\`|\?'
 #------------------------------------------------------------------------------ARREGLO DE TOKENS
 listaTokens=[]
 #------------------------------------------------------------------------------
@@ -145,6 +146,9 @@ def tokenizador(t):
     #print("t="+t)
     #print(txtString)
     #print(len(txtString))
+    numeroI=re.findall(LiteralInt,t)
+    numeroF=re.findall(LiteralFloat,t)
+
 
 #Comentarios
     if(posComment!=-1):
@@ -208,9 +212,44 @@ def tokenizador(t):
             for i in range(len(pExtra)):
                 #lineas.append(pExtra[i])
                 tokenizador(pExtra[i])
+
+    
 #Encontrar palabras clave
     elif(palabrasClave(t)):
         listaTokens.append(palabrasClaveName(t)+" -> "+t)
+
+#Float
+
+    elif(len(numeroF)>0):
+        x=re.compile(LiteralFloat)
+        p=x.findall(t) #STRING
+
+        pExtra=re.compile(LiteralFloat).split(t)
+
+        for i in range(len(p)):
+            listaTokens.append("Literal Float -> "+p[i])
+
+        if(len(pExtra)>0):
+            for i in range(len(pExtra)):
+                tokenizador(pExtra[i])
+
+
+#Int
+
+    elif(len(numeroI)>0):
+        x=re.compile(LiteralInt)
+        p=x.findall(t) #STRING
+
+        pExtra=re.compile(LiteralInt).split(t)
+
+        for i in range(len(p)):
+            listaTokens.append("Literal Int -> "+p[i])
+
+        if(len(pExtra)>0):
+            for i in range(len(pExtra)):
+                tokenizador(pExtra[i])
+        
+        
 #ID's
     elif(t!=''):
         listaTokens.append("ID -> "+t)
@@ -221,105 +260,5 @@ for i in range(len(lineas)):
 
 #Lista de tokens
 for k in range(len(listaTokens)):
+    # if(listaTokens[k].startswith("ID")):
     print(listaTokens[k])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-#Paso 0: Remove Comentarios #
-palabrasFinalesSinComent=[]
-for j in range(len(lineas)):
-    c1= palabras[j].find(DelimitadoresEspeciales['HASHTAG'])
-    print(c1)
-
-
-#Paso 1: Enters
-for linea in lineas:
-    if(LiteralEscape[0] in linea):
-        #print("Encontro Enter")
-        pos=linea.find('\n')
-        palabras.append(linea[0:pos])
-        palabras.append(linea[pos:len(linea)])
-    else:
-        palabras.append(linea)
-
-print(palabras)
-
-#Paso 2: Remove TABS y espacios
-for j in range(len(palabras)):
-    #print("Encontro tab/espacio")
-    palabra=palabras[j].replace('   ',' ')
-    palabras[j]=palabra
-
-palabrasFinales=[]
-for j in range(len(palabras)):
-    words = palabras[j].split(" ")
-    for k in range(len(words)): 
-        palabrasFinales.append(words[k])
-
-print(palabrasFinales)
-
-#----------------------------------------------------------------
-
-#PASO 3: EMPIEZA EL ANALISIS
-
-def tokenId(t):
-    verId=re.fullmatch(Identificadores,t)   
-    #print(verId)
-    if verId:
-        return True
-    else:
-        return False
-
-def comment(t):
-    verId=re.fullmatch(Identificadores,t)
-    #print(verId)
-    if verId:
-        return True
-    else:
-        return False       
-
-
-for i in range(len(palabrasFinales)):
-    if(tokenId(palabrasFinales[i])==True):
-        print(palabrasFinales[i])
-        print(palabrasFinales[i]+": IDENTIFICADOR")
-
-"""
-
-
-
-
-
-
-
-
-
-
-
