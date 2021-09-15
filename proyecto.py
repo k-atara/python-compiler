@@ -84,7 +84,6 @@ def delimitadoresEspecialesName(t):
 
 #---------------------------------------------------------------------Recursion
 
-
 def tokenizador(t):
     posComment=t.find("#")
     posEnter=t.find("\n")
@@ -153,7 +152,7 @@ def tokenizador(t):
         listaTokens.append("ID -> "+t)
 #Encontrar símbolos
     #for j in range(len(PalabrasClave)):
-
+    
 for i in range(len(lineas)):
     tokenizador(lineas[i])
 
