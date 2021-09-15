@@ -1,2 +1,2 @@
 'Numero de palabras: '
-a = a + b
+a2b = a + b

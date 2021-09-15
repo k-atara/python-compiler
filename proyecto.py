@@ -56,6 +56,7 @@ DelimitadoresEspeciales = {'CSIMPLE':'\'','CDOUBLE':'\"','HASHTAG':'#','RDOUBLES
 #---------------------------------------------------------------------------------------------------------------------------------------------
 DelimitadoresError= {'ERRORA':'$','ERRORB':'?','ERRORC':'`'} #Son errores si están afuera de un string
 
+RegexTokens='\+=|\+|\-=|\->|\-|<<=|<=|<<|<|>>=|>=|>>|>|\*=|\*\*=|\*\*|\*|//=|/=|//|/|%=|%|@=|@|&=|&|\|=|\||\^=|\^|~|:=|:|!=|==|=|\(|\)|\[|\]|{|}|,|\.|;|\'|\"|\$|\`|\?'
 #------------------------------------------------------------------------------ARREGLO DE TOKENS
 listaTokens=[]
 #------------------------------------------------------------------------------
@@ -123,9 +124,10 @@ def tokenizador(t):
     posEnter=t.find("\n")
     posEspacio=t.find(" ")
     txtString=re.findall(LiteralString,t)
-    x=re.compile('\".*\"|\'.*\'')
+    #x=re.compile('\".*\"|\'.*\'')
     # k=re.findall('\W' ,t)
-    k=re.compile('\W')
+    simbs=re.findall(RegexTokens,t)
+
     print("t="+t)
     print(txtString)
     print(len(txtString))
@@ -182,8 +184,33 @@ def tokenizador(t):
 #------------------------------------------------SIN COMENTARIOS, SIN ENTERS, SIN ESPACIOS, SIN STRINGS LITERALS
 
 #Encontrar símbolos
+    elif(len(simbs)>0):
+        #print("ENTRE")
+        x=re.compile(RegexTokens)
+        p=x.findall(t) #STRING
+        #print(p)
+        pExtra=re.compile(RegexTokens).split(t)
+        #print(pExtra) #RESTO DE LA LINEA
+        for i in range(len(p)):
+            for key in Delimitadores:
+                if(p[i]==Delimitadores[key]):
+                    listaTokens.append("Caracter especial: Delimitador " + key + " -> "+ Delimitadores[key])
+        
+            for key2 in Operadores:
+                if(p[i]==Operadores[key2]):
+                    listaTokens.append("Caracter especial: Operador " + key2 + " -> "+ Operadores[key2])
 
+            for key3 in DelimitadoresEspeciales:
+                if(p[i]==DelimitadoresEspeciales[key3]):
+                    listaTokens.append("Caracter especial: Delimitador especial " + key3 + " -> "+ DelimitadoresEspeciales[key3])
 
+            for key4 in DelimitadoresError:
+                if(p[i]==DelimitadoresError[key4]):
+                    listaTokens.append("Caracter especial: Delimitador error " + key4 + " -> "+ DelimitadoresError[key4])
+        if(len(pExtra)>0):
+            for i in range(len(pExtra)):
+                #lineas.append(pExtra[i])
+                tokenizador(pExtra[i])
 
 
 # #Encontrar palabras clave
