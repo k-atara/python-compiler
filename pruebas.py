@@ -1,62 +1,53 @@
 import re
 
-PalabrasClave = {'FALSE':'False','NONE':'None','TRUE':'True','AND':'and','AS':'as','ASSERT':'assert','ASYNC':'async','AWAIT':'await','BREAK':'break',
-                 'CLASS':'class','CONTINUE':'continue','DEF':'def','DEL':'del','ELIF':'elif','ELSE':'else','EXCEPT':'except','FINALLY':'finally',
-                 'FOR':'for','FROM':'from','GLOBAL':'global','IF':'if','IMPORT':'import','IN':'in','IS':'is','LAMBDA':'lambda','NONLOCAL':'nonlocal',
-                 'NOT':'not','OR':'or','PASS':'pass','RAISE':'raise','RETURN':'return','TRY':'try','WHILE':'while','WITH':'with','YIELD':'yield'}
+# LiteralFloat= '^\d*\.\d*'
+# LiteralInt = '^[1-9][0-9]*$'            #Int, Float, "Complex" (imaginarios (j)) (sin simbolos)
+# t="v2v=2"
 
-# for clave in PalabrasClave:
-#     valor = PalabrasClave[clave] 
-#     print(clave+" "+valor)
+# numero = re.findall(LiteralInt,t)
+# print(numero)
 
-l = re.compile(r'\".*\"|\'.*\'').split("print('Número de palabras: ', num_palabras)")
-#print(l)
+# x=re.compile(LiteralInt)
 
-txtString=re.split(r'\".*\"|\'.*\'',"print('Número de palabras: ', num_palabras)")
-print(txtString)
+# p=x.findall(t) #STRING
+# #print(p)
+# pExtra=re.compile(LiteralInt).split(t)
+# #print(pExtra) #RESTO DE LA LINEA
 
+# print(p)
+# print(pExtra)
 
-x=re.compile('\".*\"|\'.*\'')
+# v2v=2
 
-tx="'print('Numero de palabras: ', num_palabras)'"
+r='\+=|\+|\-=|\-|<=|<'
+k=re.compile(r)
+t="+ += - -= < < <= <=+ +-="
 
-p=x.findall(tx)
-print(bool(p))
+"""
++
++=
+-
+-=
+<
+<
+<=
++
++
+-=
+"""
 
+numero = re.findall(r,t)
+print(numero)
 
-f=re.findall('\W' ,"*+-asdefer5y6y")
-print(bool(f))
+x=re.compile(r)
 
-l=.1
-print(l)
+p=x.findall(t) #STRING
+#print(p)
+pExtra=re.compile(r).split(t)
+#print(pExtra) #RESTO DE LA LINEA
 
-
-
-#Espacio          Simbolo            PalabraClave  
-#              
-# for
-# clave 
-# in 
-# PalabrasClave
-# :
-# valor 
-# = 
-# PalabrasClave
-# [
-# clave
-# ]     
-# print
-# (
-# clave
-# +
-# "
-#  
-# "
-# +
-# valor
-# )
-
-
+print(p)
+print(pExtra)
 
 
 
