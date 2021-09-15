@@ -24,7 +24,7 @@ p=x.findall(tx)
 print(bool(p))
 
 
-f=re.findall('\".*\"|\'.*\'' ,"print('kkkk')")
+f=re.findall('\W' ,"*+-asdefer5y6y")
 print(bool(f))
 
 
