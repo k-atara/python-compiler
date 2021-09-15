@@ -128,15 +128,15 @@ def tokenizador(t):
     # k=re.findall('\W' ,t)
     simbs=re.findall(RegexTokens,t)
 
-    print("t="+t)
-    print(txtString)
-    print(len(txtString))
+    #print("t="+t)
+    #print(txtString)
+    #print(len(txtString))
 
 #Comentarios
     if(posComment!=-1):
         if(posComment==0):
             t=t.replace('\n', '')
-            print("Comentario"+t)
+            #print("Comentario"+t)
             listaTokens.append("Comentario -> "+t)
         else:
             l,r=t[:posComment],t[posComment:]
@@ -163,17 +163,6 @@ def tokenizador(t):
             for i in range(len(pExtra)):
                 #lineas.append(pExtra[i])
                 tokenizador(pExtra[i])
-        
-        # for j in range(len(listStrings)):
-        #     if(re.fullmatch(LiteralString,listStrings[j])):
-        #         listaTokens.append("String Literal -> "+listStrings[j])
-        #     else:
-        #         tokenizador(listStrings[j])
-
-
-        # listaTokens.append(delimitadoresEspecialesName(t[0])+" -> "+t[0])
-        # listaTokens.append("String -> "+t[1:len(t)-1])
-        # listaTokens.append(delimitadoresEspecialesName(t[len(t)-1])+" -> "+t[len(t)-1])
 #Espacios 
     elif(posEspacio!=-1):
         listaP = t.split(" ")
@@ -192,54 +181,42 @@ def tokenizador(t):
         pExtra=re.compile(RegexTokens).split(t)
         #print(pExtra) #RESTO DE LA LINEA
         for i in range(len(p)):
-            for key in Delimitadores:
-                if(p[i]==Delimitadores[key]):
-                    listaTokens.append("Caracter especial: Delimitador " + key + " -> "+ Delimitadores[key])
-        
-            for key2 in Operadores:
-                if(p[i]==Operadores[key2]):
-                    listaTokens.append("Caracter especial: Operador " + key2 + " -> "+ Operadores[key2])
-
-            for key3 in DelimitadoresEspeciales:
-                if(p[i]==DelimitadoresEspeciales[key3]):
-                    listaTokens.append("Caracter especial: Delimitador especial " + key3 + " -> "+ DelimitadoresEspeciales[key3])
-
-            for key4 in DelimitadoresError:
-                if(p[i]==DelimitadoresError[key4]):
-                    listaTokens.append("Caracter especial: Delimitador error " + key4 + " -> "+ DelimitadoresError[key4])
+            if operadores(p[i]):
+                listaTokens.append(operadoresName(p[i])+" -> "+t)
+            elif delimitadores(p[i]):
+                listaTokens.append(delimitadoresName(p[i])+" -> "+t)
+            elif delimitadoresEspeciales(p[i]):
+                listaTokens.append(delimitadoresEspecialesName(p[i])+" -> "+t)
+            # TODO ERRORES
+            
         if(len(pExtra)>0):
             for i in range(len(pExtra)):
                 #lineas.append(pExtra[i])
                 tokenizador(pExtra[i])
-
-
-# #Encontrar palabras clave
-#     elif(palabrasClave(t)):
-#         listaTokens.append(palabrasClaveName(t)+" -> "+t)
-# #Encontrar símbolos
-#     elif(bool(k)):
-#         if operadores(t):
-#             listaTokens.append(operadoresName(t)+" -> "+t)
-#         elif delimitadores(t):
-#             listaTokens.append(delimitadoresName(t)+" -> "+t)
-#         elif delimitadoresEspeciales(t):
-#             listaTokens.append(delimitadoresEspecialesName(t)+" -> "+t)
-
-
+#Encontrar palabras clave
+    elif(palabrasClave(t)):
+        listaTokens.append(palabrasClaveName(t)+" -> "+t)
+#Encontrar símbolos
+    elif(bool(k)):
+        if operadores(t):
+            listaTokens.append(operadoresName(t)+" -> "+t)
+        elif delimitadores(t):
+            listaTokens.append(delimitadoresName(t)+" -> "+t)
+        elif delimitadoresEspeciales(t):
+            listaTokens.append(delimitadoresEspecialesName(t)+" -> "+t)
 #ID's
     elif(t!=''):
         listaTokens.append("ID -> "+t)
 
-
+#Análisis de cada línea
 for i in range(len(lineas)):
     tokenizador(lineas[i])
 
-print(listaTokens)
-
+#Lista de tokens
 for k in range(len(listaTokens)):
     print(listaTokens[k])
 
-#Análisis de cada token
+
 
 
 

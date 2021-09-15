@@ -14,6 +14,9 @@ print('Hola')
 print("Edad", 23)
 print(mi_cadena)
 
+if(True):
+    print("True")
+
 #Numeros
 suma = 3 + 4
 resta = 4 - 5
