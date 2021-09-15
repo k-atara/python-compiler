@@ -75,6 +75,41 @@ def palabrasClaveName(t):
             return clave
     return False
 
+def operadores(t):
+    for clave in Operadores:
+        valor = Operadores[clave] 
+        if valor == t :
+            return True
+    return False
+
+def operadoresName(t):
+    for clave in Operadores:
+        valor = Operadores[clave] 
+        if valor == t :
+            return clave
+    return False
+
+def delimitadores(t):
+    for clave in Delimitadores:
+        valor = Delimitadores[clave] 
+        if valor == t :
+            return True
+    return False
+
+def delimitadoresName(t):
+    for clave in Delimitadores:
+        valor = Delimitadores[clave] 
+        if valor == t :
+            return clave
+    return False
+
+def delimitadoresEspeciales(t):
+    for clave in DelimitadoresEspeciales:
+        valor = DelimitadoresEspeciales[clave] 
+        if valor == t :
+            return True
+    return False
+
 def delimitadoresEspecialesName(t):
     for clave in DelimitadoresEspeciales:
         valor = DelimitadoresEspeciales[clave] 
@@ -89,6 +124,8 @@ def tokenizador(t):
     posEnter=t.find("\n")
     posEspacio=t.find(" ")
     txtString=re.findall(LiteralString,t)
+    x=re.compile('\".*\"|\'.*\'')
+    k=re.findall('\W' ,t)
     print("t="+t)
     print(txtString)
     print(len(txtString))
@@ -126,8 +163,6 @@ def tokenizador(t):
                 #lineas.append(pExtra[i])
                 tokenizador(pExtra[i])
         
-        
-
         # for j in range(len(listStrings)):
         #     if(re.fullmatch(LiteralString,listStrings[j])):
         #         listaTokens.append("String Literal -> "+listStrings[j])
@@ -148,11 +183,19 @@ def tokenizador(t):
 #Encontrar palabras clave
     elif(palabrasClave(t)):
         listaTokens.append(palabrasClaveName(t)+" -> "+t)
+#Encontrar símbolos
+    elif(bool(k)):
+        if operadores(t):
+            listaTokens.append(operadoresName(t)+" -> "+t)
+        elif delimitadores(t):
+            listaTokens.append(delimitadoresName(t)+" -> "+t)
+        elif delimitadoresEspeciales(t):
+            listaTokens.append(delimitadoresEspecialesName(t)+" -> "+t)
+#ID's
     elif(t!=''):
         listaTokens.append("ID -> "+t)
-#Encontrar símbolos
-    #for j in range(len(PalabrasClave)):
-    
+
+
 for i in range(len(lineas)):
     tokenizador(lineas[i])
 

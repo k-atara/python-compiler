@@ -13,19 +13,19 @@ l = re.compile(r'\".*\"|\'.*\'').split("print('Número de palabras: ', num_palab
 #print(l)
 
 txtString=re.split(r'\".*\"|\'.*\'',"print('Número de palabras: ', num_palabras)")
-# print(txtString)
+print(txtString)
 
 
 x=re.compile('\".*\"|\'.*\'')
 
-tx="print('Numero de palabras: ', num_palabras)"
+tx="'print('Numero de palabras: ', num_palabras)'"
 
 p=x.findall(tx)
-#print(p)
+print(bool(p))
 
 
-f=re.findall('\".*\"|\'.*\'' ,"print(s)")
-print(f)
+f=re.findall('\".*\"|\'.*\'' ,"print('kkkk')")
+print(bool(f))
 
 
 
