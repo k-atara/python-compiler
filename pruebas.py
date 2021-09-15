@@ -27,6 +27,9 @@ print(bool(p))
 f=re.findall('\W' ,"*+-asdefer5y6y")
 print(bool(f))
 
+l=.1
+print(l)
+
 
 
 #Espacio          Simbolo            PalabraClave  

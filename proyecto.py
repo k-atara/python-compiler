@@ -154,7 +154,6 @@ def tokenizador(t):
         #print(p)
         pExtra=re.compile(LiteralString).split(t)
         #print(pExtra) #RESTO DE LA LINEA
-
         for i in range(len(p)):
             listaTokens.append("String Literal -> "+p[i])
 
@@ -180,6 +179,11 @@ def tokenizador(t):
         #print(listaP)
         for i in range(len(listaP)):
             tokenizador(listaP[i])
+
+#---------------------------------------------SIN ESPACIOS, SIN ENTERS, SIN COMENTARIOS, STRINGS SEPARADOS
+
+
+
 #Encontrar palabras clave
     elif(palabrasClave(t)):
         listaTokens.append(palabrasClaveName(t)+" -> "+t)
@@ -205,7 +209,6 @@ for k in range(len(listaTokens)):
     print(listaTokens[k])
 
 #Análisis de cada token
-
 
 
 
