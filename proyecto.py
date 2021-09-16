@@ -3,6 +3,7 @@ import re
 
 lineas = []
 nom_archivo = sys.argv[1]
+palabras=[]
 
 # Leer el archivo y separarlos por TABS
 for line in open(nom_archivo, 'r'):
@@ -15,7 +16,7 @@ print(lineas)
 #     for k in range(len(words)): 
 #         palabras.append(words[k])
 
-#print(palabras)
+# print(palabras)
 
 #---------------------ESTRUCTURA DE LINEA
 Indent=('   ')
@@ -33,7 +34,7 @@ Identificadores = '[a-zA-Z_][a-zA-Z0-9_]*'
 #las letras mayúsculas y minúsculas A hasta Z, el guión bajo _ y los dígitos 0 hasta 9, salvo el primer carácter. Case sensitive
 
 #Literales
-LiteralString = '\"[^[\"]+\"|\'[^[\']]+\''             #Literales cerrados en comillas simples o dobles (hasta triples...)
+LiteralString = '\"[^[\"]+\"|\'[^[\']+\''             #Literales cerrados en comillas simples o dobles (hasta triples...)
 LiteralInt = '[1-9]+0?|0'            #Int, Float, "Complex" (imaginarios (j)) (sin simbolos)
 LiteralFloat= '\d+\.\d+|\.\d+|\d+\.'
 LiteralEscape = ['\n']                  #Enter
@@ -57,7 +58,7 @@ DelimitadoresEspeciales = {'CSIMPLE':'\'','CDOUBLE':'\"','HASHTAG':'#','RDOUBLES
 #---------------------------------------------------------------------------------------------------------------------------------------------
 DelimitadoresError= {'ERRORA':'$','ERRORB':'?','ERRORC':'`'} #Son errores si están afuera de un string
 
-RegexTokens='\+=|\+|\-=|\->|\-|<<=|<=|<<|<|>>=|>=|>>|>|\*=|\*\*=|\*\*|\*|//=|/=|//|/|%=|%|@=|@|&=|&|\|=|\||\^=|\^|~|:=|:|!=|==|=|\(|\)|\[|\]|{|}|,|^\w[^[0-9]\.[^[0-9]\w$|;|\'|\"|\$|\`|\?'
+RegexTokens='\+=|\+|\-=|\->|\-|<<=|<=|<<|<|>>=|>=|>>|>|\*=|\*\*=|\*\*|\*|//=|/=|//|/|%=|%|@=|@|&=|&|\|=|\||\^=|\^|~|:=|:|!=|==|=|\(|\)|\[|\]|{|}|,|\.|;|\'|\"|\$|\`|\?'
 #------------------------------------------------------------------------------ARREGLO DE TOKENS
 listaTokens=[]
 #------------------------------------------------------------------------------
@@ -142,14 +143,12 @@ def tokenizador(t):
     #x=re.compile('\".*\"|\'.*\'')
     # k=re.findall('\W' ,t)
     simbs=re.findall(RegexTokens,t)
-
     #print("t="+t)
     #print(txtString)
     #print(len(txtString))
     numeroI=re.findall(LiteralInt,t)
     numeroF=re.findall(LiteralFloat,t)
-
-
+    
 #Comentarios
     if(posComment!=-1):
         if(posComment==0):
@@ -181,16 +180,39 @@ def tokenizador(t):
             for i in range(len(pExtra)):
                 #lineas.append(pExtra[i])
                 tokenizador(pExtra[i])
-
 #Espacios 
     elif(posEspacio!=-1):
         listaP = t.split(" ")
         #print(listaP)
         for i in range(len(listaP)):
             tokenizador(listaP[i])
-
 #------------------------------------------------SIN COMENTARIOS, SIN ENTERS, SIN ESPACIOS, SIN STRINGS LITERALS
+#Float
+    elif(len(numeroF)>0):
+        x=re.compile(LiteralFloat)
+        p=x.findall(t) #STRING
 
+        pExtra=re.compile(LiteralFloat).split(t)
+
+        for i in range(len(p)):
+            listaTokens.append("Literal Float -> "+p[i])
+        print("Pextra float",pExtra)
+        if(len(pExtra)>0):
+            for i in range(len(pExtra)):
+                tokenizador(pExtra[i])
+#Int
+    elif(len(numeroI)>0):
+        x=re.compile(LiteralInt)
+        p=x.findall(t) #STRING
+
+        pExtra=re.compile(LiteralInt).split(t)
+
+        for i in range(len(p)):
+            listaTokens.append("Literal Int -> "+p[i])
+
+        if(len(pExtra)>0):
+            for i in range(len(pExtra)):
+                tokenizador(pExtra[i])     
 #Encontrar símbolos
     elif(len(simbs)>0):
         #print("ENTRE")
@@ -208,56 +230,25 @@ def tokenizador(t):
                 listaTokens.append(delimitadoresEspecialesName(p[i])+" -> "+p[i])
             elif delimitadoresErrores(p[i]):
                 listaTokens.append(delimitadoresErroresName(p[i])+" -> "+p[i])
+        
+        print("Pextra símbolos",pExtra)
         if(len(pExtra)>0):
             for i in range(len(pExtra)):
                 #lineas.append(pExtra[i])
                 tokenizador(pExtra[i])
-
-    
 #Encontrar palabras clave
     elif(palabrasClave(t)):
         listaTokens.append(palabrasClaveName(t)+" -> "+t)
-
-#Float
-
-    elif(len(numeroF)>0):
-        x=re.compile(LiteralFloat)
-        p=x.findall(t) #STRING
-
-        pExtra=re.compile(LiteralFloat).split(t)
-
-        for i in range(len(p)):
-            listaTokens.append("Literal Float -> "+p[i])
-
-        if(len(pExtra)>0):
-            for i in range(len(pExtra)):
-                tokenizador(pExtra[i])
-
-
-#Int
-
-    elif(len(numeroI)>0):
-        x=re.compile(LiteralInt)
-        p=x.findall(t) #STRING
-
-        pExtra=re.compile(LiteralInt).split(t)
-
-        for i in range(len(p)):
-            listaTokens.append("Literal Int -> "+p[i])
-
-        if(len(pExtra)>0):
-            for i in range(len(pExtra)):
-                tokenizador(pExtra[i])
-        
-        
 #ID's
     elif(t!=''):
         listaTokens.append("ID -> "+t)
 
+#---------------------------------------------------------------------Fin recursion
+
 #Análisis de cada línea
 for i in range(len(lineas)):
     tokenizador(lineas[i])
-
+    
 #Lista de tokens
 for k in range(len(listaTokens)):
     # if(listaTokens[k].startswith("ID")):
