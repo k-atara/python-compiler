@@ -1,5 +1,6 @@
 import sys
 import re
+import time 
 
 lineas = []
 nom_archivo = sys.argv[1]
@@ -144,27 +145,37 @@ def tokenizador(t):
     # k=re.findall('\W' ,t)
     simbs=re.findall(RegexTokens,t)
     #print("t="+t)
+    #time.sleep(5)
     #print(txtString)
     #print(len(txtString))
     numeroI=re.findall(LiteralInt,t)
     numeroF=re.findall(LiteralFloat,t)
     
+#Espacios 
+    if(posEspacio!=-1 and len(txtString)<=0):
+        listaP = t.split(" ")
+        print(listaP)
+        for i in range(len(listaP)):
+            if(listaP[i]!=''):
+                tokenizador(listaP[i])
 #Comentarios
-    if(posComment!=-1):
+    elif(posComment!=-1):
         if(posComment==0):
             t=t.replace('\n', '')
             #print("Comentario"+t)
-            listaTokens.append("Comentario -> "+t)
+            listaTokens.append(t+" -> Comentario")
         else:
             l,r=t[:posComment],t[posComment:]
             r=r.replace('\n', '')
-            listaTokens.append("Comentario -> "+r)
-            tokenizador(l)
+            listaTokens.append(r+" -> Comentario")
+            if(l!=''):
+                tokenizador(l)
 #Enters
     elif(posEnter!=-1):
         l,r=t[:posEnter],t[posEnter:]
-        listaTokens.append("Enter -> \\n")
-        tokenizador(l)
+        listaTokens.append("\\n -> Enter")
+        if(l!=''):
+            tokenizador(l)
 #Strings 
     elif(len(txtString)>0):
         #print("ENTRE")
@@ -174,18 +185,14 @@ def tokenizador(t):
         pExtra=re.compile(LiteralString).split(t)
         #print(pExtra) #RESTO DE LA LINEA
         for i in range(len(p)):
-            listaTokens.append("String Literal -> "+p[i])
+            listaTokens.append(p[i]+" -> String Literal")
 
         if(len(pExtra)>0):
             for i in range(len(pExtra)):
                 #lineas.append(pExtra[i])
-                tokenizador(pExtra[i])
-#Espacios 
-    elif(posEspacio!=-1):
-        listaP = t.split(" ")
-        #print(listaP)
-        for i in range(len(listaP)):
-            tokenizador(listaP[i])
+                if(pExtra!=''):
+                    tokenizador(pExtra[i])
+
 #------------------------------------------------SIN COMENTARIOS, SIN ENTERS, SIN ESPACIOS, SIN STRINGS LITERALS
 #Float
     elif(len(numeroF)>0):
@@ -195,11 +202,12 @@ def tokenizador(t):
         pExtra=re.compile(LiteralFloat).split(t)
 
         for i in range(len(p)):
-            listaTokens.append("Literal Float -> "+p[i])
+            listaTokens.append(p[i]+" -> Literal Float")
         #print("Pextra float",pExtra)
         if(len(pExtra)>0):
             for i in range(len(pExtra)):
-                tokenizador(pExtra[i])
+                if(pExtra!=''):
+                    tokenizador(pExtra[i])
 #Int
     elif(len(numeroI)>0):
         x=re.compile(LiteralInt)
@@ -208,11 +216,12 @@ def tokenizador(t):
         pExtra=re.compile(LiteralInt).split(t)
 
         for i in range(len(p)):
-            listaTokens.append("Literal Int -> "+p[i])
+            listaTokens.append(p[i]+" -> Literal Int")
 
         if(len(pExtra)>0):
             for i in range(len(pExtra)):
-                tokenizador(pExtra[i])     
+                if(pExtra!=''):
+                    tokenizador(pExtra[i])    
 #Encontrar símbolos
     elif(len(simbs)>0):
         #print("ENTRE")
@@ -223,25 +232,25 @@ def tokenizador(t):
         #print(pExtra) #RESTO DE LA LINEA
         for i in range(len(p)):
             if operadores(p[i]):
-                listaTokens.append(operadoresName(p[i])+" -> "+p[i])
+                listaTokens.append(p[i]+" -> "+operadoresName(p[i]))
             elif delimitadores(p[i]):
-                listaTokens.append(delimitadoresName(p[i])+" -> "+p[i])
+                listaTokens.append(p[i]+" -> "+delimitadoresName(p[i]))
             elif delimitadoresEspeciales(p[i]):
-                listaTokens.append(delimitadoresEspecialesName(p[i])+" -> "+p[i])
+                listaTokens.append(p[i]+" -> "+delimitadoresEspecialesName(p[i]))
             elif delimitadoresErrores(p[i]):
-                listaTokens.append(delimitadoresErroresName(p[i])+" -> "+p[i])
+                listaTokens.append(p[i]+" -> "+delimitadoresErroresName(p[i]))
         
         #print("Pextra símbolos",pExtra)
         if(len(pExtra)>0):
             for i in range(len(pExtra)):
-                #lineas.append(pExtra[i])
-                tokenizador(pExtra[i])
+                if(pExtra!=''):
+                    tokenizador(pExtra[i])
 #Encontrar palabras clave
     elif(palabrasClave(t)):
-        listaTokens.append(palabrasClaveName(t)+" -> "+t)
+        listaTokens.append(t+" -> "+palabrasClaveName(t))
 #ID's
     elif(t!=''):
-        listaTokens.append("ID -> "+t)
+        listaTokens.append(t+" -> ID")
 
 #---------------------------------------------------------------------Fin recursion
 
