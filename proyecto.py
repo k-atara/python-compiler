@@ -35,7 +35,7 @@ Identificadores = '[a-zA-Z_][a-zA-Z0-9_]*'
 
 #Literales
 LiteralString = '\"[^[\"]+\"|\'[^[\']+\''             #Literales cerrados en comillas simples o dobles (hasta triples...)
-LiteralInt = '[1-9]+0?|0'            #Int, Float, "Complex" (imaginarios (j)) (sin simbolos)
+LiteralInt = '^[1-9]+0?|0$'            #Int, Float, "Complex" (imaginarios (j)) (sin simbolos)
 LiteralFloat= '\d+\.\d+|\.\d+|\d+\.'
 LiteralEscape = ['\n']                  #Enter
 
@@ -196,7 +196,7 @@ def tokenizador(t):
 
         for i in range(len(p)):
             listaTokens.append("Literal Float -> "+p[i])
-        print("Pextra float",pExtra)
+        #print("Pextra float",pExtra)
         if(len(pExtra)>0):
             for i in range(len(pExtra)):
                 tokenizador(pExtra[i])
@@ -231,7 +231,7 @@ def tokenizador(t):
             elif delimitadoresErrores(p[i]):
                 listaTokens.append(delimitadoresErroresName(p[i])+" -> "+p[i])
         
-        print("Pextra símbolos",pExtra)
+        #print("Pextra símbolos",pExtra)
         if(len(pExtra)>0):
             for i in range(len(pExtra)):
                 #lineas.append(pExtra[i])
