@@ -133,6 +133,7 @@ def tokenizador(t):
     simbs=re.findall(RegexTokens,t)
     numeroI=re.findall(LiteralInt,t)
     numeroF=re.findall(LiteralFloat,t)
+    id=re.fullmatch(Identificadores,t)
     
 #Espacios 
     if(posEspacio!=-1 and len(txtString)<=0 and posComment==-1):
@@ -226,11 +227,12 @@ def tokenizador(t):
         listaTokens.append(t+" -> Hexadecimal number")
     elif(re.fullmatch(Bi,t)):
         listaTokens.append(t+" -> Binary number")
-        
-
 #ID's
-    elif(t!=''):
+    elif(t!='' and bool(id)):
         listaTokens.append(t+" -> ID")
+#ID's
+    else:
+        listaTokens.append(t+" -> No identificado como parte de la gramática")
 
 #---------------------------------------------------------------------Fin recursion
 
