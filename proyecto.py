@@ -231,7 +231,7 @@ def tokenizador(t):
     elif(t!='' and bool(id)):
         listaTokens.append(t+" -> ID")
 #ID's
-    else:
+    elif(t!=''):
         listaTokens.append(t+" -> No identificado como parte de la gramática")
 
 #---------------------------------------------------------------------Fin recursion
