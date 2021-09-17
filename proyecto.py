@@ -2,13 +2,23 @@ import sys
 import re
 
 lineas = []
+lineasPre=[]
 nom_archivo = sys.argv[1]
 palabras=[]
+
+#REGEX UNIENDO TODITO, SEÑOR TEN PIEDAD
+rFinal='#.*|\+=|\+|\-=|\->|\-|<<=|<=|<<|<|>>=|>=|>>|>|\*=|\*\*=|\*\*|\*|//=|/=|//|/|%=|%|@=|@|&=|&|\|=|\||\^=|\^|~|:=|:|!=|==|=|\(|\)|\[|\]|{|}|,|\.|;|\$|\`|\?|\n|\"[^[\"]+\"|\'[^[\']+\'|\d+\.\d+|\.\d+|\d+\.|[1-9]+[0-9]*|^[0]*0$|[a-zA-Z_][a-zA-Z0-9_]*|0b[0-1]+|0x[0-9A-F]+|0o[0-7]+'
+
 
 # Leer el archivo y separarlos por TABS
 for line in open(nom_archivo, 'r'):
     for num in line.split("\t"):
-        lineas.append(num)
+        lineasPre.append(num)
+
+for i in range(len(lineasPre)):
+    lista=re.findall(rFinal,lineasPre[i])
+    for j in range(len(lista)):
+        lineas.append(lista[j])
 
 #---------------------ID's Y PALABRAS CLAVE
 
@@ -137,12 +147,15 @@ def tokenizador(t):
     
 #Espacios 
     if(posEspacio!=-1 and len(txtString)<=0 and posComment==-1):
+        #print("Entre espacio")
         listaP = t.split(" ")
+        #print(listaP)
         for i in range(len(listaP)):
             if(listaP[i]!=''):
                 tokenizador(listaP[i])
 #Comentarios
     elif(posComment!=-1):
+        #print("Entre comment")
         if(posComment==0):
             t=t.replace('\n', '')
             listaTokens.append(t+" -> Comentario")
@@ -154,12 +167,14 @@ def tokenizador(t):
                 tokenizador(l)
 #Enters
     elif(posEnter!=-1):
+        #print("Entre enter")
         l,r=t[:posEnter],t[posEnter:]
         listaTokens.append("\\n -> Enter")
         if(l!=''):
             tokenizador(l)
 #Strings 
     elif(len(txtString)>0):
+        #print("Entre string")
         x=re.compile(LiteralString)
         p=x.findall(t) #STRING
         pExtra=re.compile(LiteralString).split(t)
@@ -174,6 +189,7 @@ def tokenizador(t):
 #------------------------------------------------SIN COMENTARIOS, SIN ENTERS, SIN ESPACIOS, SIN STRINGS LITERALS
 #Float
     elif(len(numeroF)>0):
+        #print("Entre float")
         x=re.compile(LiteralFloat)
         p=x.findall(t) #STRING
 
@@ -187,6 +203,7 @@ def tokenizador(t):
                     tokenizador(pExtra[i])
 #Int
     elif(len(numeroI)>0):
+        #print("Entre int")
         x=re.compile(LiteralInt)
         p=x.findall(t) #STRING
 
@@ -201,6 +218,7 @@ def tokenizador(t):
                     tokenizador(pExtra[i])    
 #Encontrar símbolos
     elif(len(simbs)>0):
+        #print("Entre simbolos")
         x=re.compile(RegexTokens)
         p=x.findall(t) #STRING
         pExtra=re.compile(RegexTokens).split(t)
@@ -220,12 +238,16 @@ def tokenizador(t):
                     tokenizador(pExtra[i])
 #Encontrar palabras clave
     elif(palabrasClave(t)):
+        #print("Entre palabaras clave")
         listaTokens.append(t+" -> "+palabrasClaveName(t))
     elif(re.fullmatch(Octal,t)):
+        #print("Entre octal")
         listaTokens.append(t+" -> Octal number")
     elif(re.fullmatch(Hexa,t)):
+        #print("Entre hexa")
         listaTokens.append(t+" -> Hexadecimal number")
     elif(re.fullmatch(Bi,t)):
+        #print("Entre bi")
         listaTokens.append(t+" -> Binary number")
 #ID's
     elif(t!='' and bool(id)):
