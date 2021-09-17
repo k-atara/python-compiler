@@ -2,7 +2,10 @@
 
 Proyecto de primer parcial de la materia de **Compiladores** 2021. El programa recibe el archivo a probar como argumento desde la línea de comandos.
 
-Ejemplo: **py** proyecto.py Prueba.txt / **py** proyecto.py file.py
+Ejemplo: 
+
+**py** proyecto.py Prueba.txt 
+**py** proyecto.py file.py
 
 ## Integrantes:
  - Juan Diego Bastidas Santivañez - A01423502
