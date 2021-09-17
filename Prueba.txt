@@ -1,6 +1,1 @@
-print('Numero de palabras: ')
-a2b = a + b
-productos.remove("Pan")
-print(productos)
-2.2
-24435.66666
+var24 = 204

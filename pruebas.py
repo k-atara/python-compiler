@@ -83,7 +83,7 @@ if(len(numeroI)>0):
     x=re.compile(LiteralInt)
     p=x.findall(t) #STRING
     # for i in range(len(p)):
-    lista.append("INT -> "+p[i])
+    #lista.append("INT -> "+p[i])
 
 
 
