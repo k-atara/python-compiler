@@ -26,7 +26,10 @@ Identificadores = '[a-zA-Z_][a-zA-Z0-9_]*'
 LiteralString = '\"[^[\"]+\"|\'[^[\']+\''             #Literales cerrados en comillas simples o dobles (hasta triples...)
 LiteralInt = '^[1-9]+[0-9]*|0$'            #Int, Float, "Complex" (imaginarios (j)) (sin simbolos)
 LiteralFloat= '\d+\.\d+|\.\d+|\d+\.'
-LiteralEscape = ['\n']                  #Enter
+LiteralEscape = ['\n']                  #Enter 
+Octal = '0o[0-7]+'
+Hexa = '0x[0-9A-F]+'
+Bi = '0b[0-1]+'
 
 #Operadores
 Operadores = {'PLUS':'+','MINUS':'-','STAR':'*','DOUBLESTAR':'**','SLASH':'/','LDOUBLESLASH':'//','PERCENT':'%','AT':'@','LEFTSHIFT':'<<',
@@ -217,6 +220,14 @@ def tokenizador(t):
 #Encontrar palabras clave
     elif(palabrasClave(t)):
         listaTokens.append(t+" -> "+palabrasClaveName(t))
+    elif(re.fullmatch(Octal,t)):
+        listaTokens.append(t+" -> Octal number")
+    elif(re.fullmatch(Hexa,t)):
+        listaTokens.append(t+" -> Hexadecimal number")
+    elif(re.fullmatch(Bi,t)):
+        listaTokens.append(t+" -> Binary number")
+        
+
 #ID's
     elif(t!=''):
         listaTokens.append(t+" -> ID")
