@@ -5,6 +5,7 @@ Proyecto de primer parcial de la materia de **Compiladores** 2021. El programa r
 Ejemplo: 
 
 **py** proyecto.py Prueba.txt 
+
 **py** proyecto.py file.py
 
 ## Integrantes:
