@@ -71,17 +71,7 @@ import re
 #print(pExtra)
 
 
-LiteralInt = '[1-9]+0?|0'            
-LiteralFloat= '\d*\.\d*'
-t="12 45 963 03"
-lista=[]
 
-numeroI=re.findall(LiteralInt,t)
-
-if(len(numeroI)>0):
-    print(t)
-    x=re.compile(LiteralInt)
-    p=x.findall(t) #STRING
     # for i in range(len(p)):
     #lista.append("INT -> "+p[i])
 
@@ -95,3 +85,9 @@ if(len(numeroI)>0):
 #
 #
 #
+
+Octal = '\b0o[0-7]+\b'
+Hexa = '\b0x[0-9A-F]+\b'
+Bi = '\b0b[0-1]+\b'
+
+var20=1

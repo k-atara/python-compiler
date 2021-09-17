@@ -24,7 +24,7 @@ Identificadores = '[a-zA-Z_][a-zA-Z0-9_]*'
 
 #Literales
 LiteralString = '\"[^[\"]+\"|\'[^[\']+\''             #Literales cerrados en comillas simples o dobles (hasta triples...)
-LiteralInt = '^[1-9]+[0-9]*|0$'            #Int, Float, "Complex" (imaginarios (j)) (sin simbolos)
+LiteralInt = '^[1-9]+[0-9]*$|^[0]*0$'            #Int, Float, "Complex" (imaginarios (j)) (sin simbolos)
 LiteralFloat= '\d+\.\d+|\.\d+|\d+\.'
 LiteralEscape = ['\n']                  #Enter 
 Octal = '0o[0-7]+'
