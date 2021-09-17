@@ -12,12 +12,7 @@ for line in open(nom_archivo, 'r'):
         lineas.append(num)
 print(lineas)
 
-# for j in range(len(lineas)):
-#     words = lineas[j].split(" ")
-#     for k in range(len(words)): 
-#         palabras.append(words[k])
 
-# print(palabras)
 
 #---------------------ESTRUCTURA DE LINEA
 Indent=('   ')
