@@ -12,6 +12,6 @@ Ejemplo:
  - Juan Diego Bastidas Santivañez - A01423502
  - Kimberly Atara Lopez Vazquez - A01423052
 
-## Postworks
+## Acceso
 - [Código](https://github.com/k-atara/python-compiler/blob/main/proyecto.py)
 - [Pruebas](https://github.com/k-atara/python-compiler/blob/main/file.py)
