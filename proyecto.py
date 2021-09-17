@@ -1,6 +1,5 @@
 import sys
 import re
-import time 
 
 lineas = []
 nom_archivo = sys.argv[1]
@@ -10,7 +9,7 @@ palabras=[]
 for line in open(nom_archivo, 'r'):
     for num in line.split("\t"):
         lineas.append(num)
-print(lineas)
+#print(lineas)
 
 
 
@@ -147,9 +146,9 @@ def tokenizador(t):
     numeroF=re.findall(LiteralFloat,t)
     
 #Espacios 
-    if(posEspacio!=-1 and len(txtString)<=0):
+    if(posEspacio!=-1 and len(txtString)<=0 and posComment==-1):
         listaP = t.split(" ")
-        print(listaP)
+        #print(listaP)
         for i in range(len(listaP)):
             if(listaP[i]!=''):
                 tokenizador(listaP[i])
@@ -253,7 +252,7 @@ def tokenizador(t):
 for i in range(len(lineas)):
     tokenizador(lineas[i])
     
-#Lista de tokens
+#----------------------------------------------------------------------Impresión de la lista de tokens
 for k in range(len(listaTokens)):
     # if(listaTokens[k].startswith("ID")):
     print(listaTokens[k])
