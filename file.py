@@ -31,11 +31,6 @@ cadena_comillas_simples = "Javier dijo: 'Hola mundo!'"
 cadena_comillas_dobles = 'Javier dijo: "Hola mundo!"'
 comillas_simples = "Hello, it's me"
 
-multilinea = """Hola, bienvenido
-
-Actualmente es un ejemplo
-"""
-
 nombre = "Juan Diego"
 saludo = "Buenos días "
 
